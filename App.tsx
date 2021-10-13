@@ -1,7 +1,7 @@
 import React from 'react';
+import { ApolloProvider } from '@apollo/client';
 import Home from './src/views/Home';
-import {ApolloProvider} from '@apollo/client'
-import client from './src/client'
+import client from './src/client';
 
 export default function App() {
   return (

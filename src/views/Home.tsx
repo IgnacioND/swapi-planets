@@ -1,11 +1,13 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
 import GET_ALL_PLANETS from '../graphql/getPlanets.graphql';
+import romanNumeral from '../utils/formatNumber';
+
 
 export default function Home() {
   const { data, error, loading } = useQuery(GET_ALL_PLANETS);
-  if (loading) return <p>Loading...</p>;
-  if (error) {
+  if (loading) {return <p>Loading...</p>}
+  else if (error) {
     return (
       <p>
         `Error...$
@@ -14,11 +16,14 @@ export default function Home() {
       </p>
     );
   }
-  if (data){
-    const planetIndex = Math.floor(Math.random()*data?.allPlanets?.planets?.length);
-    console.log(planetIndex)
+  else {
+    const planetIndex = Math.floor(Math.random() * data?.allPlanets?.planets?.length);
+    const planetData = data?.allPlanets?.planets[planetIndex];
     return (
-      <h2>{data?.allPlanets?.planets[planetIndex]?.name}</h2>
-      );
+      <>
+        <h2>{planetData?.name}</h2>
+        <h2>{planetData?.filmConnection.films.map(({ episodeID }:any) => romanNumeral(episodeID)).join(', ')}</h2>
+      </>
+    );
   }
-  }
+}
